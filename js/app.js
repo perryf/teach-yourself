@@ -12,7 +12,7 @@ var myGameArea = {
     this.canvas.height = 270
     this.context = this.canvas.getContext('2d')
     document.body.insertBefore(this.canvas, document.body.childNodes[0])
-    this.interval = setInterval(updateGameArea, 40)
+    this.interval = setInterval(updateGameArea, 20)
   },
   clear: function () {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -39,10 +39,30 @@ function component (radius, color, x, y) {
     ctx.beginPath()
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI)
     ctx.fill()
+    if (this.x > myGameArea.canvas.width - (this.radius)) this.wallHitRight()
+    if (this.x < 0 + this.radius) this.wallHitLeft()
+    if (this.y > myGameArea.canvas.height - (this.radius)) this.wallHitFloor()
+    if (this.y < 0 + this.radius) this.wallHitCeiling()
   }
   this.newPos = function () {
     this.x += this.speedX
     this.y += this.speedY
+  }
+  this.wallHitRight = function () {
+    this.speedX = -this.speedX
+    this.x = myGameArea.canvas.width - this.radius
+  }
+  this.wallHitLeft = function () {
+    this.speedX = -this.speedX
+    this.x = this.radius
+  }
+  this.wallHitCeiling = function () {
+    this.speedY = -this.speedY
+    this.y = this.radius
+  }
+  this.wallHitFloor = function () {
+    this.speedY = -this.speedY
+    this.y = myGameArea.canvas.height - this.radius
   }
 }
 
