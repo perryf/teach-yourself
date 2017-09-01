@@ -1,6 +1,10 @@
 body {
 }
 
+p {
+  display: inline;
+}
+
 canvas {
   padding: 0;
   margin: 0 auto;

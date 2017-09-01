@@ -1,8 +1,36 @@
 var myGamePiece
-console.log('app.js working')
+var Client = {}
+
+Client.socket = io.connect()
+
+Client.askNewPlayer = function () {
+  Client.socket.emit('newPlayer')
+}
+
+Client.socket.on('newPlayer', function(data) {
+  for(var i = 0; i < data.length; i++) {
+    myGameArea.addNewPlayer(data[i].id, data[i].x, data[i].y)
+  }
+})
+
+Client.socket.on('move', function(data) {
+  myGameArea.movePlayer(data.id, data.x, data.y)
+})
+
+Client.socket.on('allplayers', (data) => {
+  console.log(data)
+  for(var i = 0; i < data.length; i++) {
+    myGameArea.addNewPlayer(data[i].id, data[i].x, data[i].y)
+  }
+})
+
+Client.socket.on('remove', function(id) {
+  myGameArea.removePlayer(id)
+})
 
 function startGame () {
   myGamePiece = new component(30, 'green', 50, 120)
+  Client.askNewPlayer()
   myGameArea.start()
 }
 
@@ -17,7 +45,24 @@ var myGameArea = {
   },
   clear: function () {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
-  }
+  },
+}
+
+myGamePieces = []
+
+myGameArea.addNewPlayer = function(x, y) {
+  myGamePiece = new component(30, 'green', x, y)
+  myGamePieces.push(myGamePiece)
+  console.log(x + ' ' + y)
+  // Client.askNewPlayer()
+}
+
+myGameArea.movePlayer = function (id, x, y) {
+
+}
+
+myGameArea.removePlayer = function (id) {
+
 }
 
 function component (radius, color, x, y) {
@@ -27,14 +72,15 @@ function component (radius, color, x, y) {
   this.speedY = 0
   this.x = x
   this.y = y
-  this.randomColor = function () {
-    this.red = Math.round(Math.random() * 255)
-    this.green = Math.round(Math.random() * 255)
-    this.blue = Math.round(Math.random() * 255)
-  }
-  this.randomColor()
+  // this.randomColor = function () {
+  //   this.red = Math.round(Math.random() * 255)
+  //   this.green = Math.round(Math.random() * 255)
+  //   this.blue = Math.round(Math.random() * 255)
+  // }
+  // this.randomColor()
   this.update = function () {
-    this.color = `rgb(${this.red}, ${this.green}, ${this.blue})`
+    // this.color = `rgb(${this.red}, ${this.green}, ${this.blue})`
+    this.color = 'green'
     ctx = myGameArea.context
     ctx.fillStyle = this.color
     ctx.beginPath()
@@ -75,22 +121,22 @@ function updateGameArea () {
 
 function moveUp () {
   myGamePiece.speedY = -1
-  myGamePiece.randomColor()
+  // myGamePiece.randomColor()
 }
 
 function moveDown () {
   myGamePiece.speedY = 1
-  myGamePiece.randomColor()
+  // myGamePiece.randomColor()
 }
 
 function moveLeft () {
   myGamePiece.speedX = -1
-  myGamePiece.randomColor()
+  // myGamePiece.randomColor()
 }
 
 function moveRight () {
   myGamePiece.speedX = 1
-  myGamePiece.randomColor()
+  // myGamePiece.randomColor()
 }
 
 $(document).keydown(function (e) {
