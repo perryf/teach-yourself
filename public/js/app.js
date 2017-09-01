@@ -1,4 +1,5 @@
 var myGamePiece
+console.log('app.js working')
 
 function startGame () {
   myGamePiece = new component(30, 'green', 50, 120)
