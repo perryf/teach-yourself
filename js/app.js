@@ -1,7 +1,7 @@
 var myGamePiece;
 
 function startGame() {
-    myGamePiece = new component(30, 30, "red", 10, 120);
+    myGamePiece = new component(30, "green", 50, 120);
     myGameArea.start();
 }
 
@@ -19,17 +19,18 @@ var myGameArea = {
     }
 }
 
-function component(width, height, color, x, y) {
-    this.width = width;
-    this.height = height;
+function component(radius, color, x, y) {
+    this.radius = radius;
     this.speedX = 0;
     this.speedY = 0;
     this.x = x;
     this.y = y;
     this.update = function() {
-        ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+      ctx = myGameArea.context;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        ctx.fill();
     }
     this.newPos = function() {
         this.x += this.speedX;
