@@ -95,22 +95,18 @@ function moveRight () {
 $(document).keydown(function (e) {
   switch (e.key) {
     case 'ArrowUp':
-      console.log('up')
       moveUp()
       break
 
     case 'ArrowRight':
-      console.log('right')
       moveRight()
       break
 
     case 'ArrowDown':
-      console.log('down')
       moveDown()
       break
 
     case 'ArrowLeft':
-      console.log('left')
       moveLeft()
       break
 
