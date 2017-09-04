@@ -20,7 +20,9 @@ io.on('connection', function(socket) {
       x: randomInt(100, 400),
       y: randomInt(100, 400)
     }
-    io.emit('newPlayer', getAllPlayers())
+    // io.emit('newPlayer', getAllPlayers())
+    socket.emit('allplayers', getAllPlayers())
+    socket.broadcast.emit('newplayer', socket.player)
 
     socket.on('move', function(data) {
       console.log('x: ' + x + ', y: ' + y)

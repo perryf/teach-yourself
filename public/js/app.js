@@ -8,19 +8,20 @@ Client.askNewPlayer = function () {
 }
 
 Client.socket.on('newPlayer', function(data) {
+  myGamePieces.push(data)
   for(var i = 0; i < data.length; i++) {
     myGameArea.addNewPlayer(data[i].id, data[i].x, data[i].y)
   }
 })
 
 Client.socket.on('move', function(data) {
-  myGameArea.movePlayer(data.id, data.x, data.y)
+  myGameArea.movePlayer(data.x, data.y)
 })
 
 Client.socket.on('allplayers', (data) => {
   console.log(data)
   for(var i = 0; i < data.length; i++) {
-    myGameArea.addNewPlayer(data[i].id, data[i].x, data[i].y)
+    myGamePieces.push(data[i])
   }
 })
 
